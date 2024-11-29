@@ -39,7 +39,7 @@ class TaskController extends Controller
             ->exists();
 
         if ($exists) {
-            return back()->withErrors(['time' => 'Já existe uma tarefa para este horário.']);
+            return back()->withErrors(['time' => 'Já existe uma tarefa para este dia e horário.']);
         }
 
         Auth::user()->tasks()->create($request->all());
