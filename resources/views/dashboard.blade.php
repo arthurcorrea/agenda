@@ -1,11 +1,5 @@
 @extends('layouts.app')
 
-@section('header')
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        Bem-vindo, {{ Auth::user()->name }}!
-    </h2>
-@endsection
-
 @section('content')
     <div class="pt-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -31,6 +25,7 @@
 
     <div class="max-w-7xl mx-auto sm:px-6 md:p-6 lg:px-8">
         <x-calendar />
+        <x-tasks-modal name="tasks-modal" :show="false" :tasks="[]" />
     </div>
 
 @endsection

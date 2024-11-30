@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -29,7 +30,10 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'date' => 'required|date|after_or_equal:today',
-            'time' => 'required|date_format:H:i|after_or_equal:' . now()->format('H:i'),
+            'time' => 'required|date_format:H:i|after_or_equal:' . now(-3)->format('H:i'),
+        ], [
+            'date.after_or_equal' => 'A data da tarefa não pode ser no passado.',
+            'time.after_or_equal' => 'O horário da tarefa não pode ser no passado.',
         ]);
 
         // Verificar se existe uma tarefa no mesmo dia e horário
@@ -61,7 +65,7 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'date' => 'required|date|after_or_equal:today',
-            'time' => 'required|date_format:H:i|after_or_equal:' . now()->format('H:i'),
+            'time' => 'required|date_format:H:i|after_or_equal:' . now(-3)->format('H:i'),
         ], [
             'date.after_or_equal' => 'A data da tarefa não pode ser no passado.',
             'time.after_or_equal' => 'O horário da tarefa não pode ser no passado.',
@@ -96,9 +100,11 @@ class TaskController extends Controller
         $tasks = Auth::user()->tasks()->get();
 
         return response()->json($tasks->map(function ($task) {
+            $start = Carbon::parse($task->date . ' ' . $task->time)->format('Y-m-d\TH:i:s');
+
             return [
                 'title' => $task->title,
-                'start' => $task->date . 'T' . $task->time,
+                'start' => $start,
                 'id' => $task->id,
             ];
         }));
@@ -111,7 +117,17 @@ class TaskController extends Controller
             ->orderBy('time')
             ->get();
 
-        return response()->json($tasks);
+            return response()->json($tasks->map(function ($task) {
+                $time = Carbon::parse($task->date . ' ' . $task->time)->format('H:i');
+
+                return [
+                    'id' => $task->id,
+                    'title' => $task->title,
+                    'description' => $task->description,
+                    'date' => $task->date,
+                    'time' => $time,
+                ];
+            }));
     }
 
 

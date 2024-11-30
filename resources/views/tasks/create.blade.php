@@ -11,7 +11,7 @@
 
                 <div class="mb-4">
                     <label for="title" class="block text-gray-400">{{ __('Título') }}</label>
-                    <input type="text" name="title" id="title" class="dark:bg-gray-900 text-white mt-2 p-2 w-full border border-gray-800 rounded" required>
+                    <input type="text" name="title" id="title" class="dark:bg-gray-900 text-white mt-2 p-2 w-full border border-gray-800 rounded dark:focus:ring-indigo-800" required>
                     @error('title')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror

@@ -24,19 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch(`/tasks/day/${info.dateStr}`)
                 .then(response => response.json())
                 .then(data => {
-                    // Exibir modal com tarefas do dia
-                    showModal(data);
+                    // Abre o modal e passa as tarefas
+                    window.dispatchEvent(new CustomEvent('open-modal', {
+                        detail: {
+                            name: 'tasks-modal',  // Nome do modal
+                            tasks: data,  // Passa as tarefas para o modal
+                        }
+                    }));
                 });
         },
     });
     calendar.render();
 });
-
-function showModal(tasks) {
-    let modalContent = '<ul>';
-    tasks.forEach(task => {
-        modalContent += `<li>${task.time}: ${task.title}</li>`;
-    });
-    modalContent += '</ul>';
-    alert(modalContent);
-}

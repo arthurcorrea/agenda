@@ -16,9 +16,9 @@
     }
 
     .fc-daygrid-event:hover {
-        background-color: #45698C !important; 
-        border-color: #45698C !important;    
-        color: white !important;              
+        background-color: #45698C !important;
+        border-color: #45698C !important;
+        color: white !important;
     }
 
 </style>
@@ -35,26 +35,20 @@
             plugins: [dayGridPlugin, interactionPlugin],
             initialView: 'dayGridMonth',
             events: "{{ route('tasks.calendar') }}",
-            locale: 'pt-br',
+            locale: ptBR,
             dateClick: function (info) {
                 fetch(`/tasks/day/${info.dateStr}`)
                     .then(response => response.json())
                     .then(data => {
-                        // Exibir modal com tarefas do dia
-                        showModal(data);
-                    });
+                    window.dispatchEvent(new CustomEvent('open-modal', {
+                        detail: {
+                            name: 'tasks-modal',
+                            tasks: data,
+                        }
+                    }));
+                });
             },
         });
         calendar.render();
     });
-
-    function showModal(tasks) {
-        let modalContent = '<ul>';
-        tasks.forEach(task => {
-            modalContent += `<li>${task.time}: ${task.title}</li>`;
-        });
-        modalContent += '</ul>';
-        // Aqui você implementa o modal com JavaScript ou com Alpine.js/Laravel UI
-        alert(modalContent); // Apenas para demonstrar
-    }
 </script>
