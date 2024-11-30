@@ -45,11 +45,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    // Referência 1-N com Tasks
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
-
 }
