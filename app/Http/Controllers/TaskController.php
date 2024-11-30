@@ -14,7 +14,7 @@ class TaskController extends Controller
     {
         $tasks = Auth::user()->tasks()->orderBy('date')->orderBy('time')->get();
 
-        return view('dashboard', compact('tasks'));
+        return view('schedule', compact('tasks'));
     }
 
     // Criar tarefa
