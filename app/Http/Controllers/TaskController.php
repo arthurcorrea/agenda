@@ -30,10 +30,9 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'date' => 'required|date|after_or_equal:today',
-            'time' => 'required|date_format:H:i|after_or_equal:' . now(-3)->format('H:i'),
+            'time' => 'required'
         ], [
             'date.after_or_equal' => 'A data da tarefa não pode ser no passado.',
-            'time.after_or_equal' => 'O horário da tarefa não pode ser no passado.',
         ]);
 
         // Verificar se existe uma tarefa no mesmo dia e horário
@@ -65,10 +64,9 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'date' => 'required|date|after_or_equal:today',
-            'time' => 'required|date_format:H:i|after_or_equal:' . now(-3)->format('H:i'),
+            'time' => 'required'
         ], [
             'date.after_or_equal' => 'A data da tarefa não pode ser no passado.',
-            'time.after_or_equal' => 'O horário da tarefa não pode ser no passado.',
         ]);
 
         // Verificar se existe uma tarefa no mesmo dia e horário
